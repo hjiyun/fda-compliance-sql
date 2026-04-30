@@ -119,6 +119,19 @@ docker exec fda-postgres psql -U fda_admin -d fda_compliance -c "SELECT * FROM n
 
 ---
 
+## 📅 진행 기록 (Development Journal)
+
+각 주차별 작업 내용, 의사결정, 트러블슈팅을 정리한 진행 일지입니다.
+
+- [Week 1: DB 설계 및 환경 구축](docs/journal/week1.md) ✅
+- Week 2: 데이터 ETL (예정)
+- Week 3: SQL 쿼리 작성 (예정)
+- Week 4: VIEW 구성 및 적합성 진단 (예정)
+- Week 5: 분석 및 시각화 (예정)
+- Week 6: 보고서 마무리 (예정)
+
+---
+
 ## 프로젝트 문서
 
 - [연구 제안서 (Proposal)](docs/proposal.pdf)
