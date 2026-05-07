@@ -59,24 +59,26 @@ COMMENT ON COLUMN nutrient_limits.description            IS '영양소 설명 (�
 -- ============================================================
 CREATE TABLE products (
     product_id      SERIAL PRIMARY KEY,
-    product_code    VARCHAR(50)  UNIQUE,
-    product_name    VARCHAR(255) NOT NULL,
-    brand           VARCHAR(100),
-    category_id     INT          REFERENCES categories(category_id) ON DELETE SET NULL,
-    serving_size_g  NUMERIC(10,2),
-    country         VARCHAR(50)  DEFAULT 'Korea',
-    created_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+    product_code     VARCHAR(50)  UNIQUE,
+    product_name     VARCHAR(255) NOT NULL,
+    brand            VARCHAR(100),
+    category_id      INT          REFERENCES categories(category_id) ON DELETE SET NULL,
+    category_source  VARCHAR(10)  NOT NULL DEFAULT 'other',
+    serving_size_g   NUMERIC(10,2),
+    country          VARCHAR(50)  DEFAULT 'Korea',
+    created_at       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE  products                  IS '식품 제품 마스터 (Open Food Facts 한국 식품 2,493건)';
-COMMENT ON COLUMN products.product_id       IS '제품 ID (PK)';
-COMMENT ON COLUMN products.product_code     IS '제품 코드 / 바코드 (EAN)';
-COMMENT ON COLUMN products.product_name     IS '제품명';
-COMMENT ON COLUMN products.brand            IS '브랜드명';
-COMMENT ON COLUMN products.category_id      IS '카테고리 FK';
-COMMENT ON COLUMN products.serving_size_g   IS '1회 제공량 (g)';
-COMMENT ON COLUMN products.country          IS '판매 국가 (기본: Korea)';
-COMMENT ON COLUMN products.created_at       IS '레코드 생성 시각';
+COMMENT ON TABLE  products                   IS '식품 제품 마스터 (Open Food Facts 한국 식품 2,493건)';
+COMMENT ON COLUMN products.product_id        IS '제품 ID (PK)';
+COMMENT ON COLUMN products.product_code      IS '제품 코드 / 바코드 (EAN)';
+COMMENT ON COLUMN products.product_name      IS '제품명';
+COMMENT ON COLUMN products.brand             IS '브랜드명';
+COMMENT ON COLUMN products.category_id       IS '카테고리 FK';
+COMMENT ON COLUMN products.category_source   IS '카테고리 매핑 출처: tags(categories_tags) / top(category_top) / free(categories 자유텍스트) / name(product_name) / other';
+COMMENT ON COLUMN products.serving_size_g    IS '1회 제공량 (g)';
+COMMENT ON COLUMN products.country           IS '판매 국가 (기본: Korea)';
+COMMENT ON COLUMN products.created_at        IS '레코드 생성 시각';
 
 -- ============================================================
 -- 4. product_nutrients : 제품별 영양소 함량 (100g 기준)

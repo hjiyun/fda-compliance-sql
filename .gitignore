@@ -121,12 +121,14 @@ temp/
 *.tmp
 *.bak
 
-# ===== Data (선택) =====
-# 대용량 원본/중간 산출물은 필요 시 주석 해제
-# data/raw/
-# data/interim/
-# *.csv
-# *.parquet
+# ===== Data =====
+# 원본·중간 산출물은 git에 포함하지 않음 (Open Food Facts ODbL 라이선스 + 대용량)
+data/raw/
+data/processed/
+*.parquet
+*.csv
+# sql/ 하위에 들어가는 작은 시드 CSV 등은 보존
+!sql/**/*.csv
 
 # ===== DB dumps =====
 *.sql.gz

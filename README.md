@@ -20,6 +20,16 @@
 
 ---
 
+## 🔍 핵심 발견 (Week 2 시점)
+
+본 프로젝트의 데이터 정책 설계 및 ETL 과정에서 다음 3가지를 정량적으로 확인하였습니다 ([상세는 Week 2 일지](docs/journal/week2.md) 참조).
+
+1. **Phantom 0 위험 (셀 기준 23.9 %)** — 1차 프로젝트의 0-대치 영양소 컬럼을 그대로 룰 엔진에 사용했을 경우, 결측이 자동으로 "적합" 판정되어 위양성 적합 분류가 발생할 수 있다. 본 프로젝트는 NULL 보존 정책으로 회피.
+2. **한국 식품의 카테고리 메타데이터 부재 (~85 % 결측)** — `categories_tags`, `category_top`, `categories` 자유텍스트 모두 결측 비율이 비슷하게 높음. 4-tier fallback 매핑으로 분류율을 10.4 % → **42.6 %** 까지 확장.
+3. **카테고리 미분류 식품군의 sodium 위험 집중** — Other 그룹의 sodium 평균(528 mg/100g)이 분류 그룹(366 mg/100g)보다 높고, **FDA 임계값 460 mg 을 이미 초과**. 메타데이터 부재가 영양 위험 정보 가시성의 구조적 격차로 이어짐.
+
+---
+
 ## 연구 목적
 
 1. **표준 문서의 데이터베이스 정형화** — FDA 영양소 4종 기준값을 RDB 스키마로 표현
@@ -111,8 +121,8 @@ docker exec fda-postgres psql -U fda_admin -d fda_compliance -c "SELECT * FROM n
 | 주차 | 기간 | 작업 내용 | 상태 |
 |:---:|---|---|:---:|
 | 1주차 | 2026.05.2주 | DB 스키마 설계 · 시드 데이터 입력 · 연구 제안서 | ✅ 완료 |
-| 2주차 | 2026.05.3주 | ETL 파이프라인 (food.parquet → PostgreSQL) | ⏳ 예정 |
-| 3주차 | 2026.05.4주 | SQL 룰 엔진 구현 (`v_compliance_results`, `v_risk_score`) | ⏳ 예정 |
+| 2주차 | 2026.05.3주 | ETL 파이프라인 · 4-tier 카테고리 매핑 · 핵심 발견 3건 | ✅ 완료 |
+| 3주차 | 2026.05.4주 | SQL 룰 엔진 구현 (`v_compliance_results`, `v_risk_score`) | ⏳ 진행 예정 |
 | 4주차 | 2026.06.1주 | 적합성 진단 결과 분석 (카테고리·영양소별 집계) | ⏳ 예정 |
 | 5주차 | 2026.06.2주 | 결과 시각화 + 표준학적 해석 | ⏳ 예정 |
 | 6주차 | 2026.06.3주 | 최종 보고서 작성 · 발표 준비 | ⏳ 예정 |
@@ -124,7 +134,7 @@ docker exec fda-postgres psql -U fda_admin -d fda_compliance -c "SELECT * FROM n
 각 주차별 작업 내용, 의사결정, 트러블슈팅을 정리한 진행 일지입니다.
 
 - [Week 1: DB 설계 및 환경 구축](docs/journal/week1.md) ✅
-- Week 2: 데이터 ETL (예정)
+- [Week 2: 데이터 ETL 및 핵심 발견](docs/journal/week2.md) ✅
 - Week 3: SQL 쿼리 작성 (예정)
 - Week 4: VIEW 구성 및 적합성 진단 (예정)
 - Week 5: 분석 및 시각화 (예정)
