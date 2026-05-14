@@ -129,6 +129,8 @@ data/processed/
 *.csv
 # sql/ 하위에 들어가는 작은 시드 CSV 등은 보존
 !sql/**/*.csv
+# docs/results/ 분석 산출 CSV (소용량, 보고서 raw 결과) 는 보존
+!docs/results/*.csv
 
 # ===== DB dumps =====
 *.sql.gz

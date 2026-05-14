@@ -1,0 +1,9 @@
+comparison,nutrient,rate_a_pct,rate_b_pct,diff_pp,z_stat,p_value,ci95_low_pp,ci95_high_pp,n_a,n_b,significant
+Trusted vs Other,energy,29.8,20.38,9.41,3.224,0.001262,3.23,15.6,245,1143,False
+Trusted vs Other,sugars,37.99,31.22,6.77,1.94,0.052421,-0.24,13.78,229,852,False
+Trusted vs Other,saturated_fat,45.7,32.2,13.5,3.701,0.000215,6.15,20.86,221,764,True
+Trusted vs Other,sodium,25.11,36.1,-10.98,-2.983,0.002856,-17.81,-4.16,219,651,True
+Trusted vs Inferred,energy,29.8,20.77,9.03,2.906,0.003659,2.59,15.47,245,732,False
+Trusted vs Inferred,sugars,37.99,33.97,4.03,1.081,0.279821,-3.35,11.4,229,580,False
+Trusted vs Inferred,saturated_fat,45.7,38.06,7.64,1.937,0.052708,-0.15,15.44,221,515,False
+Trusted vs Inferred,sodium,25.11,25.57,-0.46,-0.127,0.899163,-7.51,6.59,219,438,False
