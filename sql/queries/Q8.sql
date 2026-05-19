@@ -26,7 +26,7 @@ WITH grouped AS (
         END                                            AS group_name,
         vcr.nutrient_code,
         vcr.judgment
-    FROM       v_compliance_results vcr
+    FROM       v_compliance_us vcr
     INNER JOIN products             p ON p.product_id = vcr.product_id
 )
 SELECT

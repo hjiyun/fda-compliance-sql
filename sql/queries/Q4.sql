@@ -18,7 +18,7 @@ WITH ranked AS (
             PARTITION BY category, nutrient_code
             ORDER BY     value_per_100g DESC
         )                                       AS rk
-    FROM v_compliance_results
+    FROM v_compliance_us
     WHERE category IS NOT NULL
       AND category != 'Other'
 )

@@ -136,3 +136,6 @@ data/processed/
 *.sql.gz
 *.dump
 pgdata/
+# pg_dump 백업 (Week 4 마이그레이션 안전망 등 — 로컬 보관, 깃 비공개)
+backup_*.sql
+*.backup.sql

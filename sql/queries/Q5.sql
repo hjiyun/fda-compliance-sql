@@ -11,7 +11,7 @@ SELECT
     COUNT(*)                                            AS product_n,
     ROUND(COUNT(*)::numeric
           / SUM(COUNT(*)) OVER () * 100, 2)             AS share_pct
-FROM v_risk_score
+FROM v_risk_score_us
 GROUP BY risk_level
 ORDER BY
     CASE risk_level
@@ -37,7 +37,7 @@ WITH ranked AS (
             PARTITION BY risk_level
             ORDER BY high_count DESC, moderate_count DESC, product_id
         )                                              AS rn
-    FROM v_risk_score
+    FROM v_risk_score_us
 )
 SELECT
     risk_level,

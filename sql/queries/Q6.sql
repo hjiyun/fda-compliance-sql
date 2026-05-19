@@ -19,7 +19,7 @@ WITH bucketed AS (
             WHEN high_count = 3      THEN '3 violations'
             WHEN high_count = 4      THEN '4 violations (all)'
         END                                   AS bucket
-    FROM v_risk_score
+    FROM v_risk_score_us
 )
 SELECT
     bucket,

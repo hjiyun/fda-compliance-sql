@@ -1,4 +1,6 @@
-# Week 3 — SQL 룰 엔진 분석 결과 인덱스
+# SQL 룰 엔진 분석 결과 인덱스
+
+## Week 3 — 단일국 (US) 진단
 
 | Query | 주제 | 핵심 발견 (1줄) |
 |---|---|---|
@@ -11,9 +13,26 @@
 | [Q7](Q7.md) | NULL 탐지 | sodium 결측 47.5 %; undiagnosed 366 건 중 77.3 % 가 Other × other |
 | [Q8](Q8.md) | ★ 가설 검증 (SQL+z-test) | **sodium 만 Other > Trusted (+10.98 pp, p=0.003) 유의**; saturated_fat 은 반대 방향 (Trusted +13.50 pp) |
 
+## Week 4 — 다국가 (US / EU / CODEX) 확장
+
+| Query | 주제 | 핵심 발견 (1줄) |
+|---|---|---|
+| [Q9](Q9.md) | Q8 다국가 확장 (36 셀) | sodium Other-Trusted gap: CODEX +13.80 > US +10.98 > EU +9.29 pp — **표준이 엄격할수록 메타데이터 부재 효과 강화** |
+| [Q10](Q10.md) | 동일 제품의 국가별 판정 차이 | sodium **95 케이스** "FDA 적합 → CODEX 위반" (다수가 400 mg/100g 클러스터); sat_fat / energy 는 임계값 동일이라 차이 0 |
+
 ## 산출물
 
-- VIEW 2 개: `v_compliance_results` (6,589 행) / `v_risk_score` (2,493 행)
-- SQL 8 개 ([sql/queries/Q1.sql ~ Q8.sql](../../sql/queries/))
-- Python 통계 검증 1 개 ([analysis/q8_statistical_test.py](../../analysis/q8_statistical_test.py))
-- 결과 CSV: [q8_ztest_results.csv](q8_ztest_results.csv)
+- **VIEW 4개 (Week 4 듀얼)**:
+  - `v_compliance_results` (다국가, 19,767 행) / `v_compliance_us` (Week 3 호환, 6,589 행)
+  - `v_risk_score` (다국가, 7,479 행 = 2,493 × 3) / `v_risk_score_us` (Week 3 호환, 2,493 행)
+- **SQL 10 개**: [sql/queries/Q1.sql ~ Q10.sql](../../sql/queries/)
+- **마이그레이션**: [sql/05_multi_country_migration.sql](../../sql/05_multi_country_migration.sql), [sql/06_dual_views.sql](../../sql/06_dual_views.sql)
+- **Python 통계 검증**: [analysis/q8_statistical_test.py](../../analysis/q8_statistical_test.py)
+- **결과 CSV**: [q8_ztest_results.csv](q8_ztest_results.csv)
+
+## Sugars surrogate 주의 사항 (Q9 · Q10 공통)
+
+- OFF 원본의 `sugars-100g` 는 **total sugars** 기준 — EU (Regulation 1169/2011) 정의와만 정합.
+- US (21 CFR 101.9) 는 added sugars, CODEX (WHO 2015) 는 free sugars 가 정식 정의.
+- 본 분석의 sugars 비교 중 EU 결과만 정의 정합. US / CODEX 의 sugars 결과는 total 을 surrogate 로 사용한 상한 추정.
+- 보고서·발표에서 sugars cross-country 인사이트를 언급할 때 반드시 명시할 것.

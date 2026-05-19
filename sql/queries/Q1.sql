@@ -14,7 +14,7 @@ SELECT
     ROUND(
         COUNT(*) FILTER (WHERE judgment = 'high')::numeric
         / NULLIF(COUNT(*), 0) * 100, 2)            AS high_pct
-FROM v_compliance_results
+FROM v_compliance_us
 GROUP BY nutrient_code, nutrient_name_kr
 ORDER BY high_pct DESC;
 
@@ -27,6 +27,6 @@ SELECT
     ROUND(
         COUNT(*) FILTER (WHERE judgment = 'high')::numeric
         / NULLIF(COUNT(*), 0) * 100, 2)            AS high_pct
-FROM v_compliance_results
+FROM v_compliance_us
 GROUP BY category, nutrient_code
 ORDER BY category, nutrient_code;

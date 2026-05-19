@@ -25,6 +25,7 @@ WITH violation_check AS (
     FROM       product_nutrients pn
     INNER JOIN products          p  ON p.product_id     = pn.product_id
     INNER JOIN nutrient_limits   nl ON nl.nutrient_code = pn.nutrient_code
+                                    AND nl.country_code  = 'US'
     LEFT JOIN  categories        c  ON c.category_id    = p.category_id
 ),
 risk_summary AS (

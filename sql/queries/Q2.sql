@@ -13,7 +13,7 @@ SELECT
     COUNT(*) FILTER (WHERE judgment = 'high')                     AS high_n,
     ROUND(COUNT(*) FILTER (WHERE judgment = 'high')::numeric
           / NULLIF(COUNT(*), 0) * 100, 2)                         AS high_pct
-FROM v_compliance_results
+FROM v_compliance_us
 GROUP BY category
 ORDER BY high_pct DESC;
 
@@ -24,7 +24,7 @@ SELECT
     COUNT(*) FILTER (WHERE judgment = 'high')                     AS high_n,
     ROUND(COUNT(*) FILTER (WHERE judgment = 'high')::numeric
           / NULLIF(COUNT(*), 0) * 100, 2)                         AS high_pct
-FROM v_compliance_results
+FROM v_compliance_us
 WHERE category != 'Other'
 UNION ALL
 SELECT
@@ -33,7 +33,7 @@ SELECT
     COUNT(*) FILTER (WHERE judgment = 'high'),
     ROUND(COUNT(*) FILTER (WHERE judgment = 'high')::numeric
           / NULLIF(COUNT(*), 0) * 100, 2)
-FROM v_compliance_results
+FROM v_compliance_us
 WHERE category = 'Other'
 UNION ALL
 SELECT
@@ -42,4 +42,5 @@ SELECT
     COUNT(*) FILTER (WHERE judgment = 'high'),
     ROUND(COUNT(*) FILTER (WHERE judgment = 'high')::numeric
           / NULLIF(COUNT(*), 0) * 100, 2)
-FROM v_compliance_results;
+FROM v_compliance_us;
+
