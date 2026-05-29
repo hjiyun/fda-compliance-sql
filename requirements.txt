@@ -1,0 +1,7 @@
+numpy>=1.26
+pandas>=2.2
+psycopg2-binary>=2.9
+python-dotenv>=1.0
+statsmodels>=0.14
+matplotlib>=3.10
+seaborn>=0.13
