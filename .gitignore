@@ -139,3 +139,6 @@ pgdata/
 # pg_dump 백업 (Week 4 마이그레이션 안전망 등 — 로컬 보관, 깃 비공개)
 backup_*.sql
 *.backup.sql
+
+# 보고서 내부 TODO (인용 보강 등) — 로컬 보관
+docs/report/_TODO.md

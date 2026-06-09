@@ -20,15 +20,23 @@
 | [Q9](Q9.md) | Q8 다국가 확장 (36 셀) | sodium Other-Trusted gap: CODEX +13.80 > US +10.98 > EU +9.29 pp — **표준이 엄격할수록 메타데이터 부재 효과 강화** |
 | [Q10](Q10.md) | 동일 제품의 국가별 판정 차이 | sodium **95 케이스** "FDA 적합 → CODEX 위반" (다수가 400 mg/100g 클러스터); sat_fat / energy 는 임계값 동일이라 차이 0 |
 
+## Week 6 — 실용성 강화 (라벨 의무 전수 진단)
+
+| Query | 주제 | 핵심 발견 (1줄) |
+|---|---|---|
+| [Q11](Q11.md) ★ | 한국 식품 2,493건 라벨 의무 전수 진단 (7,479행) | EU 60.41 % > US 54.19 % > CODEX 51.74 % (pass_pct); **"CODEX safe = 글로벌 수출 안전권" 924 건** — 보고서 4.4 절 + Streamlit MVP 토대 |
+
 ## 산출물
 
 - **VIEW 4개 (Week 4 듀얼)**:
   - `v_compliance_results` (다국가, 19,767 행) / `v_compliance_us` (Week 3 호환, 6,589 행)
   - `v_risk_score` (다국가, 7,479 행 = 2,493 × 3) / `v_risk_score_us` (Week 3 호환, 2,493 행)
-- **SQL 10 개**: [sql/queries/Q1.sql ~ Q10.sql](../../sql/queries/)
+- **SQL 11 개**: [sql/queries/Q1.sql ~ Q11.sql](../../sql/queries/)
 - **마이그레이션**: [sql/05_multi_country_migration.sql](../../sql/05_multi_country_migration.sql), [sql/06_dual_views.sql](../../sql/06_dual_views.sql)
 - **Python 통계 검증**: [analysis/q8_statistical_test.py](../../analysis/q8_statistical_test.py)
-- **결과 CSV**: [q8_ztest_results.csv](q8_ztest_results.csv)
+- **결과 CSV**:
+  - [q8_ztest_results.csv](q8_ztest_results.csv) — Q8 z-검정 raw 결과
+  - [Q11_full_diagnosis.csv](Q11_full_diagnosis.csv) — 라벨 의무 전수 진단 7,479 행 / 493 KB
 
 ## Sugars surrogate 주의 사항 (Q9 · Q10 공통)
 
