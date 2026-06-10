@@ -1,0 +1,105 @@
+// ============================================================
+// FDA 다국가 식품 라벨링 적합성 진단 DB — ERD (dbdiagram.io DBML)
+// 기준: sql/01_schema.sql + sql/05_multi_country_migration.sql (Week 4)
+//   - 테이블 7개 (categories, nutrients, nutrient_limits, products,
+//     product_nutrients, allergens, product_allergens)
+//   - nutrient_limits 는 (country_code, nutrient_code) 복합 PK,
+//     3 국 × 4 영양소 = 12 행 (US / EU / CODEX)
+//   - nutrients 는 국가 무관 영양소 정체성 마스터
+// 사용법: dbdiagram.io 에 붙여넣기 → Export → PNG 로 docs/ERD.png 교체
+// ============================================================
+
+Table categories {
+  category_id   int          [pk, increment, note: '카테고리 ID']
+  category_name varchar(100) [not null, unique, note: '카테고리명 (과자류/음료/유제품 등)']
+  description   text
+  created_at    timestamp    [default: `CURRENT_TIMESTAMP`]
+
+  Note: '식품 카테고리 마스터'
+}
+
+Table nutrients {
+  nutrient_code     varchar(30) [pk, note: 'sodium / sugars / saturated_fat / energy']
+  nutrient_name_kr  varchar(50) [not null]
+  nutrient_name_en  varchar(50) [not null]
+  unit              varchar(10) [not null, note: 'mg / g / kcal']
+  is_public_concern boolean     [default: false, note: 'FDA 공중보건 우려 영양소 여부']
+  description       text
+
+  Note: '영양소 정체성 마스터 (국가 무관) — Week 4 마이그레이션 신설'
+}
+
+Table nutrient_limits {
+  country_code        varchar(10)   [not null, note: '표준 발행 국가/기구 (US / EU / CODEX)']
+  nutrient_code       varchar(30)   [not null, note: 'FK → nutrients']
+  daily_value         "numeric(10,2)" [not null, note: '1일 권장량 (DV)']
+  high_threshold_100g "numeric(10,2)" [not null, note: '100g당 고함량 임계값 (DV의 20%)']
+  threshold_ratio     "numeric(4,2)"  [default: 0.20, note: '임계값 산정 비율']
+  source              varchar(200)  [note: '근거 규정 (예: 21 CFR 101.9)']
+  effective_date      date          [note: '규정 효력 발생일']
+  sugar_type          varchar(20)   [note: 'added / total / free / NULL']
+
+  indexes {
+    (country_code, nutrient_code) [pk]
+  }
+  Note: '국가별 영양소 임계값 (3국 × 4영양소 = 12행)'
+}
+
+Table products {
+  product_id      int          [pk, increment, note: '제품 ID']
+  product_code    varchar(50)  [unique, note: '제품 코드 / 바코드 (EAN)']
+  product_name    varchar(255) [not null]
+  brand           varchar(100)
+  category_id     int          [note: 'FK → categories (ON DELETE SET NULL)']
+  category_source varchar(10)  [not null, default: 'other', note: 'tags/top/free/name/other']
+  serving_size_g  "numeric(10,2)"
+  country         varchar(50)  [default: 'Korea']
+  created_at      timestamp    [default: `CURRENT_TIMESTAMP`]
+
+  Note: '제품 마스터 (Open Food Facts 한국 식품 2,493건)'
+}
+
+Table product_nutrients {
+  nutrient_row_id int           [pk, increment, note: '레코드 ID']
+  product_id      int           [not null, note: 'FK → products (ON DELETE CASCADE)']
+  nutrient_code   varchar(30)   [not null, note: 'FK → nutrients']
+  amount_per_100g "numeric(10,2)" [not null, note: '100g당 함량']
+
+  indexes {
+    (product_id, nutrient_code) [unique]
+  }
+  Note: '제품별 영양소 함량 (100g 기준)'
+}
+
+Table allergens {
+  allergen_id      int         [pk, increment]
+  allergen_code    varchar(30) [not null, unique, note: 'milk / egg / peanut 등']
+  allergen_name_ko varchar(50) [not null]
+  description      text
+
+  Note: '알레르기 유발 성분 마스터 (선택 확장)'
+}
+
+Table product_allergens {
+  product_id  int [not null, note: 'FK → products (ON DELETE CASCADE)']
+  allergen_id int [not null, note: 'FK → allergens (ON DELETE CASCADE)']
+
+  indexes {
+    (product_id, allergen_id) [pk]
+  }
+  Note: '제품-알레르기 매핑 (선택 확장)'
+}
+
+// ----- 관계 (FK) -----
+Ref: products.category_id           > categories.category_id
+Ref: nutrient_limits.nutrient_code  > nutrients.nutrient_code
+Ref: product_nutrients.product_id   > products.product_id
+Ref: product_nutrients.nutrient_code > nutrients.nutrient_code
+Ref: product_allergens.product_id   > products.product_id
+Ref: product_allergens.allergen_id  > allergens.allergen_id
+
+// ----- 선택 확장 테이블 그룹 -----
+TableGroup "선택 확장 (미적재)" {
+  allergens
+  product_allergens
+}
