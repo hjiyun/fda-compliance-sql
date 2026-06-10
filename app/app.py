@@ -88,19 +88,26 @@ BURDEN_SHORT_EN = {  # 보고서와 동일 키 — 코드/CSV 호환용
 
 
 # ============================================================
-# 예시 시나리오 (3 종, 사이드바 버튼)
-# 보고서 핵심 발견과 1:1 매핑.
+# 한국 대표 식품 — Open Food Facts 한국 식품 2,493 건 중 실제 추출값.
+# (sodium mg · sugars g · saturated_fat g · energy kcal, 모두 per 100 g)
+# 출처: data/raw/df_raw.nutriments — load_data.py 와 동일 추출·정규화 로직.
+# 부담 수준이 골고루 섞이도록 선별 (복수경고 / 단일경고 / 비대칭 / 안전).
 # ============================================================
-SCENARIOS = {
-    '🍜 Shin Ramyun (보편적 위반)':
-        {'sodium': 1790.0, 'sugars': 6.0, 'saturated_fat': 9.0, 'energy': 503.0,
-         'desc': '3 국 모두 multiple_warning. 보고서 4.2.1 절 영양소별 위반률.'},
-    '🥡 400 mg 클러스터 (비대칭)':
-        {'sodium':  400.0, 'sugars': 5.0, 'saturated_fat': 3.0, 'energy': 250.0,
-         'desc': 'US · EU safe / CODEX 만 multi. 보고서 4.3.2 절 + 5.2.3 (b).'},
-    '✅ 글로벌 안전권 (3 국 safe)':
-        {'sodium':  100.0, 'sugars': 5.0, 'saturated_fat': 2.0, 'energy': 200.0,
-         'desc': '3 국 모두 safe (924 건 안전권). 보고서 4.4.3 절 + 5.2.3 (a).'},
+REPRESENTATIVE_FOODS: dict[str, tuple[float, float, float, float]] = {
+    # 라면·스낵 — 3 국 모두 복수경고
+    '🍜 신라면 (Shin Ramyun, 농심)':        (1490.0, 3.3,  6.7, 421.0),
+    '🍜 안성탕면 (AnSungTangMyun, 농심)':    (1880.0, 2.9,  7.0, 423.0),
+    '🥔 포카칩 (Pocachip)':                 ( 126.0, 3.3, 14.3, 570.0),
+    '🥔 감자깡 (Gamjakkang, 농심)':          ( 508.0, 4.0,  6.0, 470.0),
+    '🥧 초코파이 (Choco Pie)':              ( 228.0, 34.3, 10.9, 440.0),
+    # 김치 — 나트륨 단일경고 (3 국 공통)
+    '🥬 비비고 김치 (Bibigo Kimchi)':        ( 720.0, 2.0,  0.1,  23.0),
+    # 비대칭 — 국가별 판정 갈림
+    '🍓 딸기 요구르트 (요플레)':              (  24.0, 11.1, 1.8,  94.0),
+    '🌶️ 비비고 떡볶이 (Tteokbokki)':         ( 448.0, 11.2, 0.0, 256.0),
+    # 안전권 — 3 국 모두 safe
+    '🥛 서울우유 (Seoul Milk)':             (  50.0, 5.0,  2.5,  70.0),
+    '🥤 매일두유 (Maeil Soymilk)':          (  68.0, 0.9,  0.4,  50.0),
 }
 
 
@@ -147,14 +154,21 @@ def init_session_state() -> None:
 
 def render_sidebar() -> None:
     with st.sidebar:
-        st.header("📋 예시 시나리오")
-        st.caption("발표 시연용 — 한 번의 클릭으로 입력값 자동 채움.")
+        st.header("🛒 한국 대표 식품")
+        st.caption("실제 데이터(2,493 건)에서 추출한 영양 성분 — 선택 후 적용.")
 
-        for name, payload in SCENARIOS.items():
-            if st.button(name, use_container_width=True):
-                for k in NUTRIENTS:
-                    st.session_state[f'input_{k}'] = float(payload[k])
-            st.caption(payload['desc'])
+        selected = st.selectbox(
+            "대표 식품 선택", list(REPRESENTATIVE_FOODS.keys()),
+            label_visibility="collapsed",
+        )
+        na, su, sf, en = REPRESENTATIVE_FOODS[selected]
+        st.caption(
+            f"나트륨 {na:.0f} mg · 당류 {su:.1f} g · "
+            f"포화지방 {sf:.1f} g · 에너지 {en:.0f} kcal (per 100 g)"
+        )
+        if st.button("선택 적용", use_container_width=True, type="primary"):
+            for k, v in zip(NUTRIENTS, (na, su, sf, en)):
+                st.session_state[f'input_{k}'] = float(v)
 
         st.divider()
         st.header("ℹ️ 본 도구 정보")
@@ -169,10 +183,6 @@ def render_sidebar() -> None:
 - US — 21 CFR 101.9 (DV ≥ 20 % = "high in ...")
 - EU — Regulation (EU) No 1169/2011
 - CODEX — CAC/GL 2-1985 + WHO 권고
-
-⚠️ **한계** — 본 판정은 100 g 기준 통일한 surrogate 지표이며,
-FDA 의 공식 RACC 기반 표시 자격과 정확히 일치하지 않습니다.
-상세는 보고서 5.3.3 절 참조.
             """
         )
 

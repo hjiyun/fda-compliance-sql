@@ -1,3 +1,4 @@
+# ETL · 분석 (PostgreSQL 룰 엔진 + 통계/시각화)
 numpy>=1.26
 pandas>=2.2
 psycopg2-binary>=2.9
@@ -5,3 +6,7 @@ python-dotenv>=1.0
 statsmodels>=0.14
 matplotlib>=3.10
 seaborn>=0.13
+
+# Streamlit MVP (app/app.py) — 로컬 실행 및 Streamlit Cloud 호스팅용
+streamlit>=1.51
+plotly>=6.8
