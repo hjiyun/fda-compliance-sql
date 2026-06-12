@@ -109,7 +109,7 @@ CREATE TABLE nutrient_limits (
 
 ![ERD](docs/ERD.png)
 
-> ERD 는 Week 1 단일국 버전. Week 4 마이그레이션 후 다국가 버전 추가 예정.
+> ERD 는 다국가 스키마(7 테이블) 반영 — Week 4 마이그레이션 완료.
 
 ### 시스템 아키텍처
 
@@ -143,9 +143,21 @@ docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/01_schema.
 docker cp sql\02_seed_categories.sql   fda-postgres:/tmp/
 docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/02_seed_categories.sql
 
-# 영양소 임계값 (4종)
+# 영양소 임계값 (4종, 단일국 US)
 docker cp sql\03_seed_nutrient_limits.sql fda-postgres:/tmp/
 docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/03_seed_nutrient_limits.sql
+
+# 단일국 VIEW (Week 3)
+docker cp sql\04_views.sql              fda-postgres:/tmp/
+docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/04_views.sql
+
+# 다국가 마이그레이션 (Week 4) — nutrients 테이블 신설 + nutrient_limits 3국 12행 (→ 총 7개 테이블)
+docker cp sql\05_multi_country_migration.sql fda-postgres:/tmp/
+docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/05_multi_country_migration.sql
+
+# 듀얼 VIEW (Week 4) — v_compliance_results/_us · v_risk_score/_us (총 4개 VIEW)
+docker cp sql\06_dual_views.sql         fda-postgres:/tmp/
+docker exec  fda-postgres psql -U fda_admin -d fda_compliance -f /tmp/06_dual_views.sql
 ```
 
 ### 3. 적재 결과 확인
@@ -212,7 +224,7 @@ docker exec fda-postgres psql -U fda_admin -d fda_compliance -c "SELECT * FROM n
 - [ERD](docs/ERD.png) — 데이터베이스 스키마 관계도
 - [시스템 아키텍처](docs/architecture.png)
 - [docs/figures/](docs/figures/) — 시각화 4 종 PNG (300 DPI)
-- [docs/results/](docs/results/) — Q1~Q10 분석 결과 보고서 (Markdown)
+- [docs/results/](docs/results/) — Q1~Q11 분석 결과 보고서 (Markdown)
 
 ---
 

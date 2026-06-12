@@ -28,9 +28,13 @@ OUT_PDF = REPORT_DIR / "full_report.pdf"
 # 그림 임베드 설정 — 본문 인라인 참조 위치(해당 그림을 설명하는 문단) 직후에 삽입.
 #   anchor: HTML 내 검색 문자열,  occ: 몇 번째 등장에 삽입(그림 목록 항목 건너뛰기용)
 FIGURES = [
+    {"anchor": "4 단계로 기술한다", "occ": 1,
+     "file": DOCS_DIR / "architecture.png",
+     "cap": "그림 3.1 시스템 아키텍처 — 4-layer 파이프라인 "
+            "(Data Sources → Database → SQL Analysis → Output)"},
     {"anchor": "전체 테이블 관계와 컬럼 정의는", "occ": 1,
      "file": DOCS_DIR / "ERD.png",
-     "cap": "그림 3.1 ERD — 데이터베이스 스키마 관계도"},
+     "cap": "그림 3.2 ERD — 데이터베이스 스키마 관계도"},
     {"anchor": "[그림 4.1]", "occ": 2,
      "file": FIG_DIR / "fig03_category_heatmap.png",
      "cap": "그림 4.1 카테고리 × 영양소 위반률 히트맵 (US, FDA DV ≥ 20 %)"},
@@ -38,8 +42,8 @@ FIGURES = [
      "file": FIG_DIR / "fig02_q8_forest.png",
      "cap": "그림 4.2 Q8 forest plot — 카테고리 메타데이터의 영양소별 차별적 영향 (US, n = 2,493)"},
     {"anchor": "[그림 4.3]", "occ": 2,
-     "file": FIG_DIR / "fig01_sodium_monotonic.png",
-     "cap": "그림 4.3 sodium Other − Trusted 격차의 단조 확대 (EU 480 → US 460 → CODEX 400 mg/100 g)"},
+     "file": FIG_DIR / "fig05_sodium_levels.png",
+     "cap": "그림 4.3 sodium 위반율 — 어느 기준(EU · US · CODEX) 에서도 메타데이터 부재(Other) 군이 보유(Trusted) 군보다 높음"},
     {"anchor": "[그림 4.4]", "occ": 2,
      "file": FIG_DIR / "fig04_sodium_400_cluster.png",
      "cap": "그림 4.4 sodium 함량 분포와 3 국 임계값 — 한국 가공식품의 400 mg/100 g 클러스터"},
