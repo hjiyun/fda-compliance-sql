@@ -1,0 +1,5 @@
+nutrient,Other_viol,Other_noviol,Trusted_viol,Trusted_noviol,dpp_Other_minus_Trusted,z_p_value,OR_Other_vs_Trusted,OR_ci_lo,OR_ci_hi,phi,phi_grade,haldane
+sodium,235,416,55,164,10.98,0.002856,1.684,1.193,2.378,0.101,small,False
+saturated_fat,246,518,101,120,-13.5,0.000215,0.564,0.416,0.766,0.118,small,False
+sugars,266,586,87,142,-6.77,0.052421,0.741,0.547,1.004,0.059,negligible,False
+energy,233,910,73,172,-9.41,0.001262,0.603,0.443,0.822,0.087,negligible,False
