@@ -16,11 +16,11 @@
 - 1차 프로젝트(`synthetic-data-tbt-detection`)의 후속 연구 — 데이터 기반 학습 모델 → **표준 기반 룰 엔진**
 - 단일국(FDA) 분석으로 시작해 Week 4부터 EU·CODEX 비교 확장
 
-> 📄 자세한 연구 배경·방법론·일정은 [연구 제안서](docs/proposal.pdf) 참조.
+> 자세한 연구 배경·방법론·일정은 [연구 제안서](docs/proposal.pdf) 참조.
 
 ---
 
-## 🔍 핵심 발견 (Week 1~6 완료, 보고서 5장 마무리)
+## 핵심 발견 (Week 1~6 완료, 보고서 5장 마무리)
 
 본 프로젝트의 ETL · SQL 분석 · 통계 검증 · 시각화 · 보고서 작성을 통해 다음 5 가지를 정량적으로 도출하였습니다 ([Week 1~4 일지](docs/journal/) · [보고서 5 장](docs/report/05_discussion.md) 참조).
 
@@ -64,7 +64,7 @@
 > ★ CODEX 가 가장 엄격 (WHO 2012 가이드라인 NRV-NCD 기반)
 > † OFF 데이터는 total sugars 기준이므로 US (added) · CODEX (free) 의 sugars 결과는 surrogate 비교
 
-### nutrient_limits 다국가 구조 (Week 4 마이그레이션 ✅ 완료)
+### nutrient_limits 다국가 구조 (Week 4 마이그레이션 완료)
 
 정체성-표준 분리 원칙 — 영양소 정체성(이름·단위·공중보건 우려 등 국가 무관 속성) 과 국가별 표준값(daily_value, high_threshold_100g 등) 을 별도 테이블로 분리.
 
@@ -121,7 +121,7 @@ CREATE TABLE nutrient_limits (
 
 ### 1. PostgreSQL 컨테이너 실행
 
-> ⚠️ `<your-password>` 부분은 본인이 사용할 비밀번호로 변경해주세요.
+> `<your-password>` 부분은 본인이 사용할 비밀번호로 변경해주세요.
 
 ```bash
 docker run -d --name fda-postgres \
@@ -173,25 +173,25 @@ docker exec fda-postgres psql -U fda_admin -d fda_compliance -c "SELECT * FROM n
 
 | 주차 | 기간 | 작업 내용 | 상태 |
 |:---:|---|---|:---:|
-| 1주차 | 2026.05.2주 | DB 스키마 설계 · 시드 데이터 · 연구 제안서 | ✅ 완료 |
-| 2주차 | 2026.05.3주 | ETL 파이프라인 · 4-tier 카테고리 매핑 · 핵심 발견 3건 | ✅ 완료 |
-| 3주차 | 2026.05.4주 | SQL 룰 엔진 + Q1~Q8 + Q8 가설 검증 (z-test) | ✅ 완료 |
-| 4주차 | 2026.06.1주 | 다국가 마이그레이션 + 듀얼 VIEW + Q9·Q10 | ✅ 완료 |
-| 5주차 | 2026.06.2주 | 시각화 4 종 (matplotlib + seaborn, 300 DPI PNG) | ✅ 완료 |
-| 6주차 | 2026.06.2주 ~ 3주 | **보고서 1~5 장 작성 + 통합본 + 초록 · 목차 · 그림·표 목록** | ✅ 완료 |
+| 1주차 | 2026.05.2주 | DB 스키마 설계 · 시드 데이터 · 연구 제안서 | 완료 |
+| 2주차 | 2026.05.3주 | ETL 파이프라인 · 4-tier 카테고리 매핑 · 핵심 발견 3건 | 완료 |
+| 3주차 | 2026.05.4주 | SQL 룰 엔진 + Q1~Q8 + Q8 가설 검증 (z-test) | 완료 |
+| 4주차 | 2026.06.1주 | 다국가 마이그레이션 + 듀얼 VIEW + Q9·Q10 | 완료 |
+| 5주차 | 2026.06.2주 | 시각화 4 종 (matplotlib + seaborn, 300 DPI PNG) | 완료 |
+| 6주차 | 2026.06.2주 ~ 3주 | **보고서 1~5 장 작성 + 통합본 + 초록 · 목차 · 그림·표 목록** | 완료 |
 | 7주차 | 2026.06.4주 | 인용 보강 (KISS/RISS) + PDF 변환 + 발표 자료 1차 | ⏳ 예정 |
 | 8주차 | 2026.07.1주 | 최종 보고서 제출 · 발표 준비 | ⏳ 예정 |
 
 ---
 
-## 📅 진행 기록 (Development Journal)
+## 진행 기록 (Development Journal)
 
 각 주차별 작업 내용, 의사결정, 트러블슈팅을 정리한 진행 일지입니다.
 
-- [Week 1: DB 설계 및 환경 구축](docs/journal/week1.md) ✅
-- [Week 2: 데이터 ETL 및 핵심 발견](docs/journal/week2.md) ✅
-- [Week 3: SQL 분석 및 가설 검증](docs/journal/week3.md) ✅
-- [Week 4: 다국가 표준 확장 (US + EU + CODEX)](docs/journal/week4.md) ✅
+- [Week 1: DB 설계 및 환경 구축](docs/journal/week1.md) (완료)
+- [Week 2: 데이터 ETL 및 핵심 발견](docs/journal/week2.md) (완료)
+- [Week 3: SQL 분석 및 가설 검증](docs/journal/week3.md) (완료)
+- [Week 4: 다국가 표준 확장 (US + EU + CODEX)](docs/journal/week4.md) (완료)
 - Week 5: 시각화 4 종 (작성 예정)
 - Week 6: 보고서 1~5장 작성 (작성 예정)
 - Week 7: 인용 보강 + PDF 변환 (예정)

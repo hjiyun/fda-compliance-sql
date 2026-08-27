@@ -154,7 +154,7 @@ def init_session_state() -> None:
 
 def render_sidebar() -> None:
     with st.sidebar:
-        st.header("🛒 한국 대표 식품")
+        st.header("한국 대표 식품")
         st.caption("실제 데이터(2,493 건)에서 추출한 영양 성분 — 선택 후 적용.")
 
         selected = st.selectbox(
